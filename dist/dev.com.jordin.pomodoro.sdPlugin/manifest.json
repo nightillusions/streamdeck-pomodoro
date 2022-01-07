@@ -1,39 +1,45 @@
 {
-  "Actions": [
-    {
-      "Icon": "images/action1.icon",
-      "Name": "Pomodoro Timer",
-      "States": [
-        {
-          "Image": "images/action1.key",
-          "TitleAlignment": "middle",
-          "FontSize": "15"
-        }
-      ],
-      "SupportedInMultiActions": false,
-      "Tooltip": "Zeit für eine Pause? Der Pomodoro Timer sagt es dir!",
-      "UUID": "dev.com.jordin.pomodoro.action"
-    }
-  ],
-  "SDKVersion": 2,
-  "Author": "Jordin",
-  "CodePath": "plugin.html",
-  "Description": "Set a pomodoro timer and be visually notified when the time expires.",
-  "Name": "Pomodoro Timer",
-  "Icon": "action/images/action",
-  "URL": "https://jordin.eu",
-  "Version": "1.0.0",
-  "OS": [
-    {
-      "Platform": "mac",
-      "MinimumVersion": "10.11"
-    },
-    {
-      "Platform": "windows",
-      "MinimumVersion": "10"
-    }
-  ],
-  "Software": {
-    "MinimumVersion": "4.1"
-  }
+	"Actions": [
+		{
+			"Icon": "images/pluginIcon",
+			"Name": "Pomodoro Timer (dev)",
+			"States": [
+				{
+					"Image": "images/action1.key",
+					"TitleAlignment": "middle",
+					"FontSize": "12"
+				},
+				{
+					"Image": "images/action2.key",
+					"TitleAlignment": "middle",
+					"FontSize": "12"
+				}
+			],
+			"SupportedInMultiActions": false,
+			"Tooltip": "Zeit für eine Pause? Der Pomodoro Timer sagt es dir!",
+			"UUID": "dev.com.jordin.pomodoro.action"
+		}
+	],
+	"SDKVersion": 2,
+	"Author": "Jordin",
+	"CodePath": "plugin.html",
+	"PropertyInspectorPath": "propertyinspector.html",
+	"Description": "Set a pomodoro timer and be visually notified when the time expires.",
+	"Name": "Pomodoro Timer (dev)",
+	"Icon": "images/pluginIcon",
+	"URL": "https://jordin.eu",
+	"Version": "1.0.0",
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "10.11"
+		},
+		{
+			"Platform": "windows",
+			"MinimumVersion": "10"
+		}
+	],
+	"Software": {
+		"MinimumVersion": "4.1"
+	}
 }

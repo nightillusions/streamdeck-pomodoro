@@ -1,0 +1,15 @@
+{
+  "Description": "Stelle einen Pomodoro Timer und werde nach Ablauf der Zeit visuell informiert.",
+  "Name": "Pomodoro Timer",
+  "Category": "Productivity",
+  "com.jordin.pomodoro.action": {
+    "Name": "Pomodoro Timer",
+    "Tooltip": "Zeit für eine Pause? Der Pomodoro Timer sagt es dir!"
+  },
+  "Localization": {
+    "More info": "Mehr Infos",
+    "Message": "Nachricht",
+    "Click Me": "Klicke mich",
+    "Button": "Taste"
+  }
+}

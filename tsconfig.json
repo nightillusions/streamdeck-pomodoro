@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
+    "outDir": "./dist/",
     "target": "esnext",
     "module": "commonjs",
     "declaration": false,
@@ -13,6 +14,8 @@
     "noImplicitThis": true,
     "alwaysStrict": true,
     "noImplicitReturns": true,
+    "jsx": "react",
+    "allowJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
