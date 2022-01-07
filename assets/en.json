@@ -1,0 +1,15 @@
+{
+  "Description": "Set a pomodoro timer and be visually notified when the time expires.",
+  "Name": "Pomodoro Timer",
+  "Category": "Productivity",
+  "com.jordin.pomodoro.action": {
+    "Name": "Pomodoro Timer",
+    "Tooltip": "Time for a break? The Pomodoro Timer will tell you!"
+  },
+  "Localization": {
+    "More info": "More info",
+    "Message": "Message",
+    "Click Me": "Click Me",
+    "Button": "Button"
+  }
+}
