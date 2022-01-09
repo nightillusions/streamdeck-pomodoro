@@ -48,7 +48,12 @@ const config = (environment: unknown, options: { mode: string; env: unknown }): 
     module: {
       rules: [
         {
-          test: /\.(ts|js)$/,
+          test: /\.(js|jsx)$/,
+          exclude: /node_modules/,
+          use: ['babel-loader'],
+        },
+        {
+          test: /\.(ts|tsx)$/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
@@ -67,13 +72,13 @@ const config = (environment: unknown, options: { mode: string; env: unknown }): 
           ],
         },
         {
-          test: /\.css$/i,
+          test: /\.(css|scss)$/i,
           use: ['style-loader', 'css-loader'],
         },
       ],
     },
     resolve: {
-      extensions: ['.ts', '.js'],
+      extensions: ['.tsx', '.ts', '.js'],
     },
     optimization: {
       splitChunks: {},
