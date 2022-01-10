@@ -5,8 +5,9 @@
   "private": true,
   "author": "Pascal Jordin",
   "scripts": {
-    "build": "npm run clean && webpack --mode=development",
-    "build-prod": "npm run clean && webpack --mode=production",
+    "build": "npm run clean && cross-env NODE_ENV=development webpack --mode=development",
+    "build-prod": "npm run clean && cross-env NODE_ENV=production webpack --mode=production",
+    "dist": "npm run build-prod && DistributionTool -b -i dist/com.jordin.pomodoro.sdPlugin -o dist/",
     "ci": "npm run type-check && npm run lint && npm run set-plugin-version 0.0.0",
     "clean": "rimraf ./dist/*",
     "lint": "eslint 'src/**/*.ts'",
@@ -14,7 +15,7 @@
     "set-plugin-version": "ts-node build/scripts/set-plugin-version.ts",
     "type-check": "tsc --noEmit",
     "update-template": "update-template https://github.com/rweich/streamdeck-ts-template",
-    "test": "rm -rf '/Users/jordin/Library/Application Support/com.elgato.StreamDeck/Plugins/com.jordin.pomodoro.sdPlugin' && cp -R 'dist/dev.com.jordin.pomodoro.sdPlugin/' '/Users/jordin/Library/Application Support/com.elgato.StreamDeck/Plugins/com.jordin.pomodoro.sdPlugin/'",
+    "test": "rm -rf '/Users/jordin/Library/Application Support/com.elgato.StreamDeck/Plugins/dev.com.jordin.pomodoro.sdPlugin' && cp -R 'dist/dev.com.jordin.pomodoro.sdPlugin/' '/Users/jordin/Library/Application Support/com.elgato.StreamDeck/Plugins/dev.com.jordin.pomodoro.sdPlugin/'",
     "logs": "tail -n 100 '/Users/jordin/Library/Logs/StreamDeck/StreamDeck0.log'"
   },
   "dependencies": {
@@ -47,6 +48,7 @@
     "babel-preset-react": "^6.24.1",
     "conventional-changelog-conventionalcommits": "^4.6.0",
     "copy-webpack-plugin": "^9.0.0",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.5.1",
     "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",

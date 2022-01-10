@@ -7,12 +7,8 @@
         {
           "Image": "images/action1.key",
           "TitleAlignment": "middle",
-          "FontSize": "12"
-        },
-        {
-          "Image": "images/action2.key",
-          "TitleAlignment": "middle",
-          "FontSize": "12"
+          "FontFamily": "Impact",
+          "FontSize": "17"
         }
       ],
       "SupportedInMultiActions": false,

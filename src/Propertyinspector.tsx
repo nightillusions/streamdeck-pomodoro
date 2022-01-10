@@ -4,25 +4,26 @@ import Range from './components/Range';
 import ReactDOM from 'react-dom';
 import { Streamdeck } from '@rweich/streamdeck-ts';
 import Textfield from './components/Textfield';
+import { convertToSeconds } from './helper/Time';
+import { defaultRangeSettings } from './Settings';
+import { isDev } from './helper/Env';
 
 const pi = new Streamdeck().propertyinspector();
 
-function convertToSeconds(option: string) {
-  return Number(option) * 60;
-}
-
 const PomodoroApp = () => {
-  const [timer, setTimer] = useState<string>('25');
-  const [shortBreak, setShortBreak] = useState<string>('5');
-  const [longBreak, setLongBreak] = useState<string>('15');
-  const [interval, setinterval] = useState<string>('4');
+  const [timer, setTimer] = useState<string>(defaultRangeSettings.timer);
+  const [shortBreak, setShortBreak] = useState<string>(defaultRangeSettings.shortBreak);
+  const [longBreak, setLongBreak] = useState<string>(defaultRangeSettings.longBreak);
+  const [interval, setinterval] = useState<string>(defaultRangeSettings.interval);
 
   useEffect(() => {
     if (pi.pluginUUID) {
+      console.log('Sending settings to plugin', pi.pluginUUID);
+
       pi.setSettings(pi.pluginUUID, {
-        timer: convertToSeconds(timer),
-        shortBreak: convertToSeconds(shortBreak),
-        longBreak: convertToSeconds(longBreak),
+        timer: isDev ? timer : convertToSeconds(timer),
+        shortBreak: isDev ? shortBreak : convertToSeconds(shortBreak),
+        longBreak: isDev ? longBreak : convertToSeconds(longBreak),
         interval,
       });
     }
@@ -30,22 +31,31 @@ const PomodoroApp = () => {
 
   return (
     <div className="sdpi-wrapper">
-      <Range id="timer" label="Duration" min="5" max="60" step="5" value={timer} handleChange={setTimer} />
+      {}
+      <Range
+        id="timer"
+        label="Duration"
+        min={defaultRangeSettings.min}
+        max={defaultRangeSettings.max}
+        step={defaultRangeSettings.step}
+        value={timer}
+        handleChange={setTimer}
+      />
       <Range
         id="short-break"
         label="Short Break"
-        min="5"
-        max="60"
-        step="5"
+        min={defaultRangeSettings.min}
+        max={defaultRangeSettings.max}
+        step={defaultRangeSettings.step}
         value={shortBreak}
         handleChange={setShortBreak}
       />
       <Range
         id="long-break"
         label="Long Break"
-        min="5"
-        max="60"
-        step="5"
+        min={defaultRangeSettings.min}
+        max={defaultRangeSettings.max}
+        step={defaultRangeSettings.step}
         value={longBreak}
         handleChange={setLongBreak}
       />
@@ -61,12 +71,12 @@ const PomodoroApp = () => {
 };
 
 pi.on('websocketOpen', ({ uuid }) => {
-  console.log('got websocket-open-event!', uuid);
+  console.log('PI WebSocket opened', uuid);
   return pi.getSettings(uuid);
 });
 
 pi.on('didReceiveSettings', ({ settings }) => {
-  console.log('got didReceiveSettings event!', settings);
+  console.log('PI received settings', settings);
 
   ReactDOM.render(<PomodoroApp />, document.getElementById('pomodoro'));
 });
