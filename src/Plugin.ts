@@ -3,6 +3,8 @@ import { durationToMMSS, padTime } from './helper/Time';
 
 import { PomodoroTimer } from './models/TimerModels';
 import { Streamdeck } from '@rweich/streamdeck-ts';
+import { convertToSeconds } from './helper/Time';
+import { isDev } from './helper/Env';
 
 const plugin = new Streamdeck().plugin();
 const settingsStore: Record<string, Settings> = {};
@@ -47,14 +49,21 @@ plugin.on('keyDown', ({ context }) => {
   }
 });
 
-// function updatePiSettings(context: string): void {
-//   plugin.setSettings(context, {});
-// }
+function updatePiSettings(context: string, settings: Settings): void {
+  const { timer, shortBreak, longBreak, interval } = settings;
+  plugin.setSettings(context, {
+    timer: isDev ? timer : convertToSeconds(timer),
+    shortBreak: isDev ? shortBreak : convertToSeconds(shortBreak),
+    longBreak: isDev ? longBreak : convertToSeconds(longBreak),
+    interval,
+  });
+}
 
 function updateSettings(updatedSettings: Settings, context: string): void {
   console.log(`Updating settings...`, updatedSettings, context);
 
   settingsStore[context] = updatedSettings;
+  // updatePiSettings(context, updatedSettings);
   resetDisplayTimer(context);
 }
 

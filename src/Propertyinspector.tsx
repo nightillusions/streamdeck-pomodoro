@@ -104,5 +104,14 @@ ReactDOM.render(<PomodoroApp />, document.getElementById('pomodoro'));
 //       break;
 //   }
 // });
+pi.on('websocketOpen', ({ uuid }) => {
+  console.log('PI WebSocket opened', uuid);
+  ReactDOM.render(<PomodoroApp />, document.getElementById('pomodoro'));
+  return pi.getSettings(uuid);
+});
+
+pi.on('didReceiveSettings', ({ settings }) => {
+  console.log('PI received settings', settings);
+});
 
 export default pi;
