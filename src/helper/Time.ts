@@ -6,4 +6,4 @@ export const durationToMMSS = (duration: number) => {
   return `${padTime(minutes)}:${padTime(seconds)}`;
 };
 
-export const convertToSeconds = (option: string) => Number(option) * 60;
+export const convertToSeconds = (option: string | number) => Number(option) * 60;

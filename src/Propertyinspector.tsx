@@ -72,13 +72,12 @@ const PomodoroApp = () => {
 
 pi.on('websocketOpen', ({ uuid }) => {
   console.log('PI WebSocket opened', uuid);
+  ReactDOM.render(<PomodoroApp />, document.getElementById('pomodoro'));
   return pi.getSettings(uuid);
 });
 
 pi.on('didReceiveSettings', ({ settings }) => {
   console.log('PI received settings', settings);
-
-  ReactDOM.render(<PomodoroApp />, document.getElementById('pomodoro'));
 });
 
 export default pi;
