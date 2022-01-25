@@ -25,6 +25,8 @@
 	"Icon": "images/pluginIcon",
 	"URL": "https://jordin.eu",
 	"Version": "1.0.0",
+	"Category": "Pomodoro",
+	"CategoryIcon": "images/pluginIcon",
 	"OS": [
 		{
 			"Platform": "mac",
