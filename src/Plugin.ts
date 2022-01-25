@@ -34,6 +34,12 @@ plugin.on('didReceiveSettings', ({ context, settings: updatedSettings }) => {
   plugin.sendToPropertyInspector(context, { action: 'create', settings: updateSettings });
 });
 
+/* plugin.on('propertyInspectorDidAppear', ({ context }) => {
+  console.log(`propertyInspectorDidAppear`, settingsStore, context);
+  plugin.setSettings(context, settingsStore);
+  plugin.sendToPropertyInspector(context, { action: 'create', settings: updateSettings });
+}); */
+
 plugin.on('sendToPlugin', ({ payload }) => console.log(`*****the pi sent some data:`, payload));
 
 plugin.on('keyDown', ({ context }) => {
@@ -63,7 +69,7 @@ function updateSettings(updatedSettings: Settings, context: string): void {
   console.log(`Updating settings...`, updatedSettings, context);
 
   settingsStore[context] = updatedSettings;
-  // updatePiSettings(context, updatedSettings);
+  updatePiSettings(context, updatedSettings);
   resetDisplayTimer(context);
 }
 

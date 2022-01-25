@@ -15,7 +15,7 @@
     "set-plugin-version": "ts-node build/scripts/set-plugin-version.ts",
     "type-check": "tsc --noEmit",
     "update-template": "update-template https://github.com/rweich/streamdeck-ts-template",
-    "testMac": "rimraf '~/Library/Application Support/com.elgato.StreamDeck/Plugins/dev.com.jordin.pomodoro.sdPlugin' && cp -R 'dist/dev.com.jordin.pomodoro.sdPlugin/' '~/Library/Application Support/com.elgato.StreamDeck/Plugins/dev.com.jordin.pomodoro.sdPlugin/'",
+    "testMac": "rimraf /Users/jordin/Library/Application\\ Support/com.elgato.StreamDeck/Plugins/dev.com.jordin.pomodoro.sdPlugin && cp -R dist/dev.com.jordin.pomodoro.sdPlugin /Users/jordin/Library/Application\\ Support/com.elgato.StreamDeck/Plugins/dev.com.jordin.pomodoro.sdPlugin/",
     "testWin": "@powershell del $env:APPDATA\\Elgato\\StreamDeck\\Plugins\\dev.com.jordin.pomodoro.sdPlugin && xcopy dist\\dev.com.jordin.pomodoro.sdPlugin $env:APPDATA\\Elgato\\StreamDeck\\Plugins\\dev.com.jordin.pomodoro.sdPlugin\\ /y /e /i /h",
     "logs": "tail -n 100 '/Users/jordin/Library/Logs/StreamDeck/StreamDeck0.log'"
   },
