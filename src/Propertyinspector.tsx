@@ -113,5 +113,20 @@ pi.on('websocketOpen', ({ uuid }) => {
 pi.on('didReceiveSettings', ({ settings }) => {
   console.log('PI received settings', settings);
 });
+// pi.on('sendToPropertyInspector', ({ action, context, payload: incomingPayload }) => {
+//   const payload = incomingPayload[context] as any;
+//   console.log('PI received persistence settings', payload);
+//   switch (payload[context].action) {
+//     case 'create':
+//     case 'update':
+//       settingsStore[context] = payload[context].settings as Settings;
+//       break;
+//     case 'read':
+//       pi.sendToPlugin(context, { read: settingsStore[context] }, action);
+//       break;
+//     case 'delete':
+//       break;
+//   }
+// });
 
 export default pi;
