@@ -26,16 +26,16 @@ export function isSettings(value: unknown): value is Settings {
 }
 
 export type Settings = {
-  timer: number;
-  shortBreak: number;
-  longBreak: number;
+  timer: string;
+  shortBreak: string;
+  longBreak: string;
   interval: string;
 };
 
 export const defaultSettings: Settings = {
-  timer: isDev ? Number(defaultRangeSettings.timer) : convertToSeconds('25'),
-  shortBreak: isDev ? Number(defaultRangeSettings.shortBreak) : convertToSeconds('5'),
-  longBreak: isDev ? Number(defaultRangeSettings.longBreak) : convertToSeconds('10'),
+  timer: isDev ? defaultRangeSettings.timer : convertToSeconds('25'),
+  shortBreak: isDev ? defaultRangeSettings.shortBreak : convertToSeconds('5'),
+  longBreak: isDev ? defaultRangeSettings.longBreak : convertToSeconds('10'),
   interval: isDev ? defaultRangeSettings.interval : '4',
 };
 

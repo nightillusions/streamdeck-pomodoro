@@ -5,12 +5,21 @@ import { PomodoroTimer } from './models/TimerModels';
 import { Streamdeck } from '@rweich/streamdeck-ts';
 
 const plugin = new Streamdeck().plugin();
-const settings: Record<string, Settings> = {};
+const settingsStore: Record<string, Settings> = {};
 const pomodoroTimer: Record<string, PomodoroTimer> = {};
 
-plugin.on('willAppear', ({ context }) => {
-  console.log(`Plugin appeears`, context);
-  setDefaultTimerSettings(context);
+plugin.on('willAppear', ({ settings, context }) => {
+  console.log(`Plugin appeears`, context, settings);
+  settingsStore[context] = settings as Settings;
+  // setDefaultTimerSettings(context);
+  plugin.setSettings(context, settings);
+  setInitialTimerState(context);
+});
+
+plugin.on('willDisappear', ({ settings, context }) => {
+  console.log(`Plugin disappeears`, context, settings);
+  // setDefaultTimerSettings(context);
+  plugin.setSettings(context, settings);
   setInitialTimerState(context);
 });
 
@@ -20,7 +29,10 @@ plugin.on('didReceiveSettings', ({ context, settings: updatedSettings }) => {
     updateSettings(updatedSettings as Settings, context);
     pomodoroTimer[context].phase = 'timer';
   }
+  plugin.sendToPropertyInspector(context, { action: 'create', settings: updateSettings });
 });
+
+plugin.on('sendToPlugin', ({ payload }) => console.log(`*****the pi sent some data:`, payload));
 
 plugin.on('keyDown', ({ context }) => {
   console.log(`Plugin key pressed`, context);
@@ -42,13 +54,13 @@ plugin.on('keyDown', ({ context }) => {
 function updateSettings(updatedSettings: Settings, context: string): void {
   console.log(`Updating settings...`, updatedSettings, context);
 
-  settings[context] = updatedSettings;
+  settingsStore[context] = updatedSettings;
   resetDisplayTimer(context);
 }
 
 function timer(context: string) {
   const currentPhase = pomodoroTimer[context].phase;
-  const duration = settings[context][currentPhase];
+  const duration = settingsStore[context][currentPhase];
 
   if (!currentPhase) {
     console.error(`No phase for timer!`, context);
@@ -89,7 +101,7 @@ function timer(context: string) {
 function setNextPhase(context: string) {
   console.log(`Setting next phase...`, context);
   const { phase, cycle: currentCycle } = pomodoroTimer[context];
-  const { interval: intervalSetting } = settings[context];
+  const { interval: intervalSetting } = settingsStore[context];
   const interval = Number(intervalSetting);
 
   switch (phase) {
@@ -147,12 +159,12 @@ function setInitialTimerState(context: string) {
 
 function setDefaultTimerSettings(context: string) {
   console.log(`Setting default settings...`, context);
-  settings[context] = defaultSettings;
+  settingsStore[context] = defaultSettings;
 }
 
 function resetDisplayTimer(context: string) {
   const currentPhase = pomodoroTimer[context].phase;
-  const duration = settings[context][currentPhase];
+  const duration = settingsStore[context][currentPhase];
   console.log(`Resetting timer display with phase '${currentPhase}' and duration '${duration}'...`, context);
   plugin.setTitle(durationToMMSS(duration), context);
 }

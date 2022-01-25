@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { Settings, defaultRangeSettings } from './Settings';
 
 import Range from './components/Range';
 import ReactDOM from 'react-dom';
 import { Streamdeck } from '@rweich/streamdeck-ts';
 import Textfield from './components/Textfield';
 import { convertToSeconds } from './helper/Time';
-import { defaultRangeSettings } from './Settings';
 import { isDev } from './helper/Env';
 
 const pi = new Streamdeck().propertyinspector();
+const settingsStore: Record<string, Settings> = {};
 
 const PomodoroApp = () => {
+  const [store, setStore] = useState<Record<string, Settings>>({});
   const [timer, setTimer] = useState<string>(defaultRangeSettings.timer);
   const [shortBreak, setShortBreak] = useState<string>(defaultRangeSettings.shortBreak);
   const [longBreak, setLongBreak] = useState<string>(defaultRangeSettings.longBreak);
@@ -26,8 +28,24 @@ const PomodoroApp = () => {
         longBreak: isDev ? longBreak : convertToSeconds(longBreak),
         interval,
       });
+      settingsStore[pi.pluginUUID] = {
+        timer: isDev ? timer : convertToSeconds(timer),
+        shortBreak: isDev ? shortBreak : convertToSeconds(shortBreak),
+        longBreak: isDev ? longBreak : convertToSeconds(longBreak),
+        interval,
+      };
     }
   }, [timer, shortBreak, longBreak, interval]);
+
+  pi.on('websocketOpen', ({ uuid }) => {
+    console.log('PI WebSocket opened', uuid);
+    return pi.getSettings(uuid);
+  });
+
+  pi.on('didReceiveSettings', ({ context, settings }) => {
+    console.log('PI received settings', settings);
+    setStore({ context: { ...store[context], ...(settings as Settings) } });
+  });
 
   return (
     <div className="sdpi-wrapper">
@@ -69,16 +87,22 @@ const PomodoroApp = () => {
     </div>
   );
 };
+ReactDOM.render(<PomodoroApp />, document.getElementById('pomodoro'));
 
-pi.on('websocketOpen', ({ uuid }) => {
-  console.log('PI WebSocket opened', uuid);
-  return pi.getSettings(uuid);
-});
-
-pi.on('didReceiveSettings', ({ settings }) => {
-  console.log('PI received settings', settings);
-
-  ReactDOM.render(<PomodoroApp />, document.getElementById('pomodoro'));
-});
+// pi.on('sendToPropertyInspector', ({ action, context, payload: incomingPayload }) => {
+//   const payload = incomingPayload[context] as any;
+//   console.log('PI received persistence settings', payload);
+//   switch (payload[context].action) {
+//     case 'create':
+//     case 'update':
+//       settingsStore[context] = payload[context].settings as Settings;
+//       break;
+//     case 'read':
+//       pi.sendToPlugin(context, { read: settingsStore[context] }, action);
+//       break;
+//     case 'delete':
+//       break;
+//   }
+// });
 
 export default pi;
